@@ -1,0 +1,65 @@
+\documentclass{article}
+\begin{document}
+
+\section{What is curry-howard correspondence?}.\\
+In programming language theory and proof theory, the Curry-Howard correspondence (also known as the Curry-Howard
+isomorphism or equivalence, or the proofs-as-programs and propositions- or formulae-as-types interpretation) is the
+direct relationship between computer programs and mathematical proofs.\\ \\
+
+\subsection{type constructions in FP}
+But before getting into that let's see type constructions in functional programming \textit{Here I'll use SML as an example}
+
+\begin{itemize}
+\item Tuple type \verb|(int,string)|\\
+  Creating : \verb| val x : int*string = (4 , ``Hello'')|\\
+  Using : \verb| val y : int = #1 x|\\
+\item Function type \verb| int -> string |\\
+  Creating : \verb| fun f (x:int) :string = ``the value of x is'' ^ toString(x) |\\
+  Using : \verb| val y: string = f 45|\\
+
+\item Disjunction type \verb| datatype X = Left of int | $|$  \verb| Right of string |\\
+  Creating : \verb| val x:X = Left 4|\\
+  Creating : \verb| val y:X = Right ``Hello'' |\\
+  Using : \verb| fun f (x:X) :bool = case x of |\\
+  	  \verb|                     Left y = ( y > 0 )|\\
+          \verb|                     Right _ = false|\\
+  the above given is a function that takes an argument of type X and returns a value of type bool\\
+          
+\item Unit type \verb| type t = unit |\\
+  Creating : \verb| val x:unit = () |\\
+          
+\end{itemize}
+
+\subsection{From types to propositions}
+But how does the types defined just translate themselves into propositions?\\
+consider the sml code \verb|val x:t = ....|. now what does this mean? If this code manages to compile without error then
+there the type t exists in the system.\\
+Let's denote this proposition by $CH \left( t \right) $ which means that code has a value of type t or the type t exists in the
+system.\\
+But that was just for a type t what about all the other things that we have discussed above?
+
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{c c c}
+  Type & Proposition & Short Notation \\
+  \hline
+  t   & CH(t) & t \\
+  \hline
+  (a,b) & CH(a) and CH(b) & A $\wedge$ B ; A $\times$ B\\
+  \hline
+  left a $\mid$ right b & CH(a) or CH(b) & A $\vee$ B ; A $+$ B\\
+  \hline
+  a $\to$ b & CH(a) implies CH(b) & A $\Longrightarrow$ B\\
+  \hline
+  unit & true & 1
+\end{tabular}
+\endgroup                
+
+\begin{itemize}
+\item type parameter \verb| 'a | can be considered as $ \forall a $
+\item consider the function \verb| fun f (x: 'a) : 'a * 'a = (x,x) |
+  this is logically equivalent to $ \forall a \; \; \; a \Longrightarrow a \wedge a $
+   
+\end{itemize}
+\end{document}
