@@ -60,6 +60,43 @@ But that was just for a type t what about all the other things that we have disc
 \item type parameter \verb| 'a | can be considered as $ \forall a $
 \item consider the function \verb| fun f (x: 'a) : 'a * 'a = (x,x) |
   this is logically equivalent to $ \forall a \; \; \; a \Longrightarrow a \wedge a $
-   
+
+\item The elementary proof task is represented by a sequent. Notation $ A,B,C \vdash G $ the premises are A,B and C and the
+  goal is G.
+\item proofs are achieved through axioms and derivation rules. Axioms : this sequent  is true. Derivation: if such sequents are
+  true then other such sequents are true.
+\item consider the SML expression \verb| val x = 3; val a = Int.toString(x:int) ^ ``abc''; | an expression of type String
+  This is equivalent to the sequent $ Int \vdash String $. This sequent uses the fact that it uses the already computed expression
+  x which is an integer. and hence that becomes the premise and what we are computing here is the value of string which
+  becomes the goal.
+\item Now consider the function \verb| fun f (x:int) :string = Int.toString(x) ^ ``abc'' |. this takes an argument of integer
+  type and returns a value of string type.This doesn't assume that x is defined outside. this uses x as an argument . and
+  it is represented by the sequent $ \phi \vdash Int \Rightarrow String $. The empty set on the premises implies that this
+  expression doesn't use any variables that are previously computed. and the goal is the function type.
+\item sequents only describe the types and doesn't say anything about the value that is being computed.
 \end{itemize}
+
+Now lets see how the type constructions stated above translates into axioms and derivation rules.
+
+\begin{itemize}
+
+\item the tuple type. $ A \times B $\\
+  Creation : $ A, B \vdash A \times B $ . that is if we have types A and B then we have type $ A \times B $.\\
+  Usage: $ A \times B \vdash A $ or $ A \times B \vdash B $ .
+\item Function type . $ A \Rightarrow B $.\\
+  Creation : If $ A \vdash B$ then we have $ \phi \vdash A \Rightarrow B $.\\
+  Usage : $ A \Rightarrow B , A \vdash B $.
+
+\item Disjunction type $ A + B $:\\
+  Creation : $ A \vdash A + B $ and also $ B \vdash A + B $\\
+  Usage : $ A+B , A \Rightarrow C , B \Rightarrow C \vdash C $ . this corresponds to the function (that uses case statements )
+  that we've written in   the SML example for disjunction.\\
+
+\item Unit type 1:\\
+  Create : $ \phi \vdash 1 $\\
+  
+  
+\end{itemize}
+
+
 \end{document}
