@@ -94,9 +94,86 @@ Now lets see how the type constructions stated above translates into axioms and 
 
 \item Unit type 1:\\
   Create : $ \phi \vdash 1 $\\
-  
+    
+\end{itemize}
+
+In addition to these constructions we have some trivial constructions also.
+
+\begin{itemize}
+\item a single unmodified value of type A is a valid expression of type A.\\
+  $ A \vdash A$
+\item if a value can be computed with given data then it can also be computed with additional data.\\
+  If $ A_1 , A_2 , A_3, .. , A_n \vdash B $ then $ A_1 , A_2 , A_3, .. , A_n , C \vdash B $\\
+  we denote $ \Gamma $ as a sequence of arbitary premises.
+\item The order in which data is computed doesn't matter. \\
+  ie , $ \Gamma , A , B \vdash C $ is the same as $ \Gamma , B, A \vdash C$
+\end{itemize}
+
+A few syntax convention.
+
+\begin{itemize}
+
+\item The implication operator associates to the right. ie ,$ A \Rightarrow B \Rightarrow C $ is $ A \Rightarrow \left( B \Rightarrow C \right) $.
+\item precedence  order is implication , disjunction , conjunction .
+\item Implicitly all our type variables are universally quantified.\\
+  which means, $ A \Rightarrow B \Rightarrow A $ means $ \forall A : \forall B : A \Rightarrow B \Rightarrow A $.  
   
 \end{itemize}
 
+\subsubsection{A simple example}
+consider $ A \Rightarrow B \Rightarrow A $ which actually translates to $ \forall A : \forall B A \Rightarrow B \Rightarrow A $\\
+now let's see how can we convert this into types and how the process of deriving this logic works.
+\begin{itemize}
+\item Let's start with the trivial axiom $ A \vdash A $ this doesn't  need any proof.
+\item And using the fact that we can add extra types and still construct the sequent we have $ A,B \vdash A $\\
+  here we are actually adding an unused premise.
+\item Now consider the function construction rule which states \\
+  $ A \vdash B $ then $ \phi \vdash A \Rightarrow B$\\
+  but what is the sequent that we have here? it is $ A,B \vdash A $. lets apply the create function rule on B and the A on right side\\.
+  so it becomes $ A \vdash B \Rightarrow A $.
+\item lets apply the create function rule once more. so it becomes.\\
+  $ \phi \vdash A \Rightarrow B \Rightarrow A $
+\item Now this is a theorem because its derived from no premises. ( here the premise is $\phi$ )
+\end{itemize}
+
+what code does this describe?
+\begin{itemize}
+
+\item This is same as the function.
+\begin{verbatim}
+  fun f (x:A)  (y:B) : A = x;
+  f : 'a -> 'b -> 'a
+\end{verbatim}
+  we can also write this function as
+\begin{verbatim}
+  fun f x = fn y => x;
+  (* this also has the type *)
+  f : 'a -> 'b -> 'a
+\end{verbatim}
+  \item and hence we can see that the unused variable y here corresponds to the type B ( or \verb|'b| in SML )
+\end{itemize}
+
+% But how does each line of proof translate into code? lets see..
+% \begin{itemize}
+
+% \item the first sequent is nothing but $ A \vdash A $ \\
+%   which in code becomes 
+
+% \end{itemize}
+
+This way we can translate any expression in a code to a sequent. And the proof of that sequent is actually writing a code that
+defines the type of that function.\\
+
+\subsubsection{some more examples of propositions as codes}.
+
+\begin{tabular}{c c}
+  \textbf{proposition} & \textbf{code} \\
+  $ \forall A: A \Rightarrow A $ & \verb|fun f (x:'a) : 'a = x |\\
+  $ \forall A: A \Rightarrow 1 $ & \verb|fun f (x:'a) : unit = () |\\
+  $ \forall A: A \Rightarrow A+B $ & \verb|fun f (x:'a) : Either  = Left x |\\
+  $ \forall A: A \times B \Rightarrow A $ & \verb|fun f (x:'a,y:'b) : 'a = x |\\
+  $ \forall A: A \Rightarrow B \Rightarrow A $ & \verb|fun f (x:'a) (y:'b) : 'a = x |\\
+  
+\end{tabular}
 
 \end{document}
