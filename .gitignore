@@ -28,10 +28,8 @@ lia.cache
 nia.cache
 nlia.cache
 nra.cache
-
-materials/**
-notes/pdf/*
+materials/
+notes/pdf/
 *.pdf
-
 flymd*
 *~
