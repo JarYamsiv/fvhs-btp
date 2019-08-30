@@ -29,5 +29,9 @@ nia.cache
 nlia.cache
 nra.cache
 
-materials/*
+materials/**
 notes/pdf/*
+*.pdf
+
+flymd*
+*~
