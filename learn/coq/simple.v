@@ -42,7 +42,22 @@ Proof.
   intros B.
   intros proof_of_A.
   intros A_implies_B.
+
+  (*after A_implies_B the subgoal will be B and when we use the refine the subgoal then changes to
+    A , with which we can have the "exact proof_of_A" statement*)
   refine (A_implies_B _).
   exact proof_of_A.
 Qed.
 
+(* a similar example with functional composition*)
+Theorem forward_large_pose : (forall A B C:Prop , A -> (A->B) -> (B->C) -> C ).
+Proof.
+  intros A B C.
+  intros proof_of_A.
+  intros A_implies_B.
+  intros B_implies_C.
+  pose (proof_of_B := A_implies_B proof_of_A).
+  pose (proof_of_C := B_implies_C proof_of_B).
+  (*this is equivalent to pose (proof_of_C := B_implies_C (A_implies_B proof_of_A)  )*)
+  exact proof_of_C.
+Qed.
