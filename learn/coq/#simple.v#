@@ -42,6 +42,9 @@ Proof.
   intros B.
   intros proof_of_A.
   intros A_implies_B.
+
+  (*after A_implies_B the subgoal will be B and when we use the refine the subgoal then changes to
+    A , with which we can have the "exact proof_of_A" statement*)
   refine (A_implies_B _).
   exact proof_of_A.
 Qed.
