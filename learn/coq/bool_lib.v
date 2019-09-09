@@ -68,3 +68,14 @@ Proof.
   exact I.
 Qed.
 
+Theorem eqb_a_t : (forall a:bool, ( Is_true (eqb a true)) -> (Is_true a)).
+Proof.
+  intros a.
+  case a.
+  simpl.
+  intros proof_of_true.
+  exact I. (* exact proof_of_true also works *)
+  simpl.
+  intros proof_of_false.
+  exact proof_of_false. (* case proof_of_false also works *)
+Qed.
