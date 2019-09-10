@@ -225,3 +225,38 @@ Proof.
   destruct ta_and_tb as [fa fb].
   exact fa.
 Qed.
+
+(* negb a returns the negation but in bool *)
+Theorem negb_is_not : (forall a:bool, Is_true(negb a) <-> ~(Is_true a)).
+Proof.
+  intros a.
+  unfold iff.
+  refine (conj _ _).
+  (* forward impl t(n a) -> ~t a*)
+  case a.
+  simpl.
+  intros f.
+  unfold not.
+  intros t.
+  exact f.
+
+  simpl.
+  intros t.
+  unfold not.
+  intros f.
+  case f.
+
+  (* backward impl *)
+  case a.
+
+  simpl.
+  unfold not.
+  intros tf.
+  pose (f := tf I).
+  exact f.
+
+  simpl.
+  unfold not.
+  intros ff.
+  exact I.
+Qed.
