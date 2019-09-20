@@ -110,3 +110,27 @@ Theorem compile_correct : (forall e:exp ,progDenote (compile e) nil = Some (expD
 Proof.
   intros e.
 Abort.
+
+About "++".
+
+Lemma first_element_lemma : forall A (a : A) (p1 p2 : list A), (a :: p1) ++ p2 = a :: (p1 ++ p2) .
+  intros. trivial.
+Qed.
+Lemma foo1 : forall a p1 p2,  progDenote ((a :: p1) ++ p2) = progDenote (a :: (p1 ++ p2)).
+  intros. rewrite first_element_lemma. trivial.
+  Qed.
+Lemma programDenoteOVerAppend : forall p1 p2,  forall s, progDenote (p1 ++ p2) s
+                                                       = match progDenote p1 s with
+                                                           | None => None
+                                                           | Some s1 => progDenote p2 s1
+                                                         end.
+  intro p1.
+  induction p1. simpl;trivial.
+  intro p2.
+  rewrite first_element_lemma.
+  unfold progDenote. fold progDenote.
+  destruct a; unfold instrDentoe. intro s; eauto. trivial.
+  unfold app; unfold progDenote; fold progDenote. fold app.
+Theorem compiler_is_better : (forall (e: exp) (s : stack), progDenote (compile e) s = Some (expDenote e :: s)).
+  intro e.
+  induction e. simpl. trivial. simpl.
