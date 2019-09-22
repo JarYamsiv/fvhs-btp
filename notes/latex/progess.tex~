@@ -1,7 +1,0 @@
-\documentclass{article}
-\begin{document}
-\section{Introduction}
-This is a log file for the project. Here I'll explain my thought process and the things I've done during each week.
-\section{Week 1}
-Installed Coq. Use the command \verb|sudo apt install coq|
-\end{document}
