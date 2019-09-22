@@ -11,7 +11,6 @@
 % Custom packages
 %\usepackage[first]{datestamp}   % Datestamp on first page of each chapter
 
-
 \usepackage{color}
 %===== page layout
 % Define the side margins for a right-side page
@@ -21,11 +20,11 @@
 %\abovemargin = 1.5in \belowmargin = 0.05in
 
 
-\btptitle = {Title of Your BTP} % { and } are needed around your name
-\name = {Student Name}          % and other feilds. don't remove.
-\rollno = {03010104}
-\email = {id.iitg.ernet.in}
-\guide = {Your guide name}
+\btptitle = {Synthesis of formally verified hardware} % { and } are needed around your name
+\name = {Vismay Raj}          % and other feilds. don't remove.
+\rollno = {111601030}
+\email = {111601030@smail.iitpkd.ac.in}
+\guide = {Dr.Sandeep Chandran}
 
 
 \begin{document}
@@ -38,28 +37,35 @@
 
 \tableofcontents 
 
-\addcontentsline{toc}{chapter}{List of Figures} 
-\listoffigures 
+% the following can be added later in case if you have tables or figures
+%\addcontentsline{toc}{chapter}{List of Figures} 
+%\listoffigures 
 
-\addcontentsline{toc}{chapter}{List of Tables} 
-\listoftables
+%\addcontentsline{toc}{chapter}{List of Tables} 
+%\listoftables
 
 \pagenumbering{arabic}
 \def\headrulehook{\color{black}}      % Color the header rule
 
 %========== Chapters
+
+%introduction
 \typeout{}
 \include{chapter1}
 \cleardoublepage 
-\typeout{}
-\include{chapter2}
-\cleardoublepage 
+
+%\typeout{}
+%\include{chapter2}
+%\cleardoublepage 
+
 \typeout{}
 \include{chapter3}
 \cleardoublepage 
+
 \typeout{}
 \include{chapter4}
 \cleardoublepage 
+
 \typeout{}
 \include{futurework}
 \typeout{}
