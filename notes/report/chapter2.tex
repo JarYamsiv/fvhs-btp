@@ -1,0 +1,54 @@
+\chapter{Curry-howard Correspondence}
+
+In programming language theory and proof theory, the Curry–Howard correspondence 
+(also known as the Curry–Howard isomorphism or equivalence) is the direct relationship between computer 
+programs and mathematical proofs. It states that \textit{"how are type to programs in a functional programming
+paradigm , the same relation can be seen between propositions to proofs in a proof system"}.
+In other words, the Curry–Howard correspondence is the observation that two families of seemingly unrelated 
+formalisms—namely, the proof systems on one hand, and the models of computation on the other—are in 
+fact the same kind of mathematical objects. 
+
+\section{Types as propositions}
+
+    The datatypes in a functional programming language can be seen as propositions in a proof system. And hence
+the type constructors in functional programming will correspond to relational operations in proof systems.\\
+eg:\\
+Consider the following functional programming code 
+\begin{verbatim}
+    val x:int = 3
+    val y:string = "hello"
+    val z:int*string = (x,y)
+\end{verbatim}
+
+Now for this code , there are three variables of which the third one is constructed from the other two.
+the existence of a variable of a certain type in a code can be considered as a proposition "x" being true in
+a type system. the same goes for the variable "y" . but when we get back to "z" which was constructed from 
+both "x" and "y" and it requires the existence of both variables. In a proof system this translates to the function
+"and" which will only be true when both the propositions that it has are true ( ie , they exists inside the system)
+        
+\section{Further relations}
+\begin{itemize}
+    \item Tuple type \verb|(int,string)|\\
+      Creating : \verb| val x : int*string = (4 , ``Hello'')|\\
+      Using : \verb| val y : int = #1 x|\\
+    \item Function type \verb| int -> string |\\
+      Creating : \verb| fun f (x:int) :string = ``the value of x is'' ^ toString(x) |\\
+      Using : \verb| val y: string = f 45|\\
+    
+    \item Disjunction type \verb| datatype X = Left of int | $|$  \verb| Right of string |\\
+      Creating : \verb| val x:X = Left 4|\\
+      Creating : \verb| val y:X = Right ``Hello'' |\\
+      Using : \verb| fun f (x:X) :bool = case x of |\\
+            \verb|                     Left y = ( y > 0 )|\\
+              \verb|                     Right _ = false|\\
+      the above given is a function that takes an argument of type X and returns a value of type bool\\
+              
+    \item Unit type \verb| type t = unit |\\
+      Creating : \verb| val x:unit = () |\\
+              
+    \end{itemize}
+
+\section{Conclusion}
+
+    And as we have seen the relation between proofs and programs , we can see that if a program were to infer
+the types correctly that means that the corresponding proof of it will also hold true in the system.

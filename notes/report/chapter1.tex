@@ -1,0 +1,26 @@
+\chapter{Introduction}
+\pagenumbering{arabic}\hspace{3mm}
+    The project involves writing formal specification of hardware, and using proof assistant to
+formally verify the correctness of the implementation of the same. In computer science formal specification
+is the act of proving or disproving correctness of indented algorithms underlying a system with respect to a 
+certain formal specification property using formal methods of mathematics. And here we intend to write a tool
+that can formally verify hardware properties and generate source code for the same.
+
+\section{Coq -  proof assistant}
+    Here for writing specifications and proof for the same specifications we use a proof assistant called
+Coq, Coq is an interactive theorem prover. It allows the expression of mathematical assertions , mechanically
+checks the proof for these assertions, helps to find formal proofs and extracts a certified program from the
+constructive proof of it's formal specification. official website: \href{https://coq.inria.fr/}{Coq official site}
+
+\section{VHDL -  the current target language}
+    Currently the target language is set to be VHDL. The candidates for this were initially VHDL , Verilog
+and BlueSpec but due to licensing and certain other issues it is decided that the verifier will target VHDL
+
+
+\section{Organization of The Report}
+    The report will be divided into sections that will guide through the materials required for implementation
+of the project. As for both specifications and proving the correctness of the specifications we need a proof assistant
+and Coq is used here to serve the purpose. but to understand the working of Coq, one should know curry-howard
+correspondence and also the use of dependent types for programs that detects most of the errors during compile time.
+Throughout this report first Introduction to curry-howard correspondence will be given and then use of dependent typed
+languages and finally with an introduction to Coq. 
