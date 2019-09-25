@@ -1,0 +1,179 @@
+\documentclass{article}
+\begin{document}
+
+\section{What is curry-howard correspondence?}.\\
+In programming language theory and proof theory, the Curry-Howard correspondence (also known as the Curry-Howard
+isomorphism or equivalence, or the proofs-as-programs and propositions- or formulae-as-types interpretation) is the
+direct relationship between computer programs and mathematical proofs.\\ \\
+
+\subsection{type constructions in FP}
+But before getting into that let's see type constructions in functional programming \textit{Here I'll use SML as an example}
+
+\begin{itemize}
+\item Tuple type \verb|(int,string)|\\
+  Creating : \verb| val x : int*string = (4 , ``Hello'')|\\
+  Using : \verb| val y : int = #1 x|\\
+\item Function type \verb| int -> string |\\
+  Creating : \verb| fun f (x:int) :string = ``the value of x is'' ^ toString(x) |\\
+  Using : \verb| val y: string = f 45|\\
+
+\item Disjunction type \verb| datatype X = Left of int | $|$  \verb| Right of string |\\
+  Creating : \verb| val x:X = Left 4|\\
+  Creating : \verb| val y:X = Right ``Hello'' |\\
+  Using : \verb| fun f (x:X) :bool = case x of |\\
+  	  \verb|                     Left y = ( y > 0 )|\\
+          \verb|                     Right _ = false|\\
+  the above given is a function that takes an argument of type X and returns a value of type bool\\
+          
+\item Unit type \verb| type t = unit |\\
+  Creating : \verb| val x:unit = () |\\
+          
+\end{itemize}
+
+\subsection{From types to propositions}
+But how does the types defined just translate themselves into propositions?\\
+consider the sml code \verb|val x:t = ....|. now what does this mean? If this code manages to compile without error then
+there the type t exists in the system.\\
+Let's denote this proposition by $CH \left( t \right) $ which means that code has a value of type t or the type t exists in the
+system.\\
+But that was just for a type t what about all the other things that we have discussed above?
+
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{c c c}
+  Type & Proposition & Short Notation \\
+  \hline
+  t   & CH(t) & t \\
+  \hline
+  (a,b) & CH(a) and CH(b) & A $\wedge$ B ; A $\times$ B\\
+  \hline
+  left a $\mid$ right b & CH(a) or CH(b) & A $\vee$ B ; A $+$ B\\
+  \hline
+  a $\to$ b & CH(a) implies CH(b) & A $\Longrightarrow$ B\\
+  \hline
+  unit & true & 1
+\end{tabular}
+\endgroup                
+
+\begin{itemize}
+\item type parameter \verb| 'a | can be considered as $ \forall a $
+\item consider the function \verb| fun f (x: 'a) : 'a * 'a = (x,x) |
+  this is logically equivalent to $ \forall a \; \; \; a \Longrightarrow a \wedge a $
+
+\item The elementary proof task is represented by a sequent. Notation $ A,B,C \vdash G $ the premises are A,B and C and the
+  goal is G.
+\item proofs are achieved through axioms and derivation rules. Axioms : this sequent  is true. Derivation: if such sequents are
+  true then other such sequents are true.
+\item consider the SML expression \verb| val x = 3; val a = Int.toString(x:int) ^ ``abc''; | an expression of type String
+  This is equivalent to the sequent $ Int \vdash String $. This sequent uses the fact that it uses the already computed expression
+  x which is an integer. and hence that becomes the premise and what we are computing here is the value of string which
+  becomes the goal.
+\item Now consider the function \verb| fun f (x:int) :string = Int.toString(x) ^ ``abc'' |. this takes an argument of integer
+  type and returns a value of string type.This doesn't assume that x is defined outside. this uses x as an argument . and
+  it is represented by the sequent $ \phi \vdash Int \Rightarrow String $. The empty set on the premises implies that this
+  expression doesn't use any variables that are previously computed. and the goal is the function type.
+\item sequents only describe the types and doesn't say anything about the value that is being computed.
+\end{itemize}
+
+Now lets see how the type constructions stated above translates into axioms and derivation rules.
+
+\begin{itemize}
+
+\item the tuple type. $ A \times B $\\
+  Creation : $ A, B \vdash A \times B $ . that is if we have types A and B then we have type $ A \times B $.\\
+  Usage: $ A \times B \vdash A $ or $ A \times B \vdash B $ .
+\item Function type . $ A \Rightarrow B $.\\
+  Creation : If $ A \vdash B$ then we have $ \phi \vdash A \Rightarrow B $.\\
+  Usage : $ A \Rightarrow B , A \vdash B $.
+
+\item Disjunction type $ A + B $:\\
+  Creation : $ A \vdash A + B $ and also $ B \vdash A + B $\\
+  Usage : $ A+B , A \Rightarrow C , B \Rightarrow C \vdash C $ . this corresponds to the function (that uses case statements )
+  that we've written in   the SML example for disjunction.\\
+
+\item Unit type 1:\\
+  Create : $ \phi \vdash 1 $\\
+    
+\end{itemize}
+
+In addition to these constructions we have some trivial constructions also.
+
+\begin{itemize}
+\item a single unmodified value of type A is a valid expression of type A.\\
+  $ A \vdash A$
+\item if a value can be computed with given data then it can also be computed with additional data.\\
+  If $ A_1 , A_2 , A_3, .. , A_n \vdash B $ then $ A_1 , A_2 , A_3, .. , A_n , C \vdash B $\\
+  we denote $ \Gamma $ as a sequence of arbitary premises.
+\item The order in which data is computed doesn't matter. \\
+  ie , $ \Gamma , A , B \vdash C $ is the same as $ \Gamma , B, A \vdash C$
+\end{itemize}
+
+A few syntax convention.
+
+\begin{itemize}
+
+\item The implication operator associates to the right. ie ,$ A \Rightarrow B \Rightarrow C $ is $ A \Rightarrow \left( B \Rightarrow C \right) $.
+\item precedence  order is implication , disjunction , conjunction .
+\item Implicitly all our type variables are universally quantified.\\
+  which means, $ A \Rightarrow B \Rightarrow A $ means $ \forall A : \forall B : A \Rightarrow B \Rightarrow A $.  
+  
+\end{itemize}
+
+\subsubsection{A simple example}
+consider $ A \Rightarrow B \Rightarrow A $ which actually translates to $ \forall A : \forall B A \Rightarrow B \Rightarrow A $\\
+now let's see how can we convert this into types and how the process of deriving this logic works.
+\begin{itemize}
+\item Let's start with the trivial axiom $ A \vdash A $ this doesn't  need any proof.
+\item And using the fact that we can add extra types and still construct the sequent we have $ A,B \vdash A $\\
+  here we are actually adding an unused premise.
+\item Now consider the function construction rule which states \\
+  $ A \vdash B $ then $ \phi \vdash A \Rightarrow B$\\
+  but what is the sequent that we have here? it is $ A,B \vdash A $. lets apply the create function rule on B and the A on right side\\.
+  so it becomes $ A \vdash B \Rightarrow A $.
+\item lets apply the create function rule once more. so it becomes.\\
+  $ \phi \vdash A \Rightarrow B \Rightarrow A $
+\item Now this is a theorem because its derived from no premises. ( here the premise is $\phi$ )
+\end{itemize}
+
+what code does this describe?
+\begin{itemize}
+
+\item This is same as the function.
+\begin{verbatim}
+  fun f (x:A)  (y:B) : A = x;
+  f : 'a -> 'b -> 'a
+\end{verbatim}
+  we can also write this function as
+\begin{verbatim}
+  fun f x = fn y => x;
+  (* this also has the type *)
+  f : 'a -> 'b -> 'a
+\end{verbatim}
+  \item and hence we can see that the unused variable y here corresponds to the type B ( or \verb|'b| in SML )
+\end{itemize}
+
+% But how does each line of proof translate into code? lets see..
+% \begin{itemize}
+
+% \item the first sequent is nothing but $ A \vdash A $ \\
+%   which in code becomes 
+
+% \end{itemize}
+
+This way we can translate any expression in a code to a sequent. And the proof of that sequent is actually writing a code that
+defines the type of that function.\\
+
+\subsubsection{some more examples of propositions as codes}.
+
+\begin{tabular}{c c}
+  \textbf{proposition} & \textbf{code} \\
+  $ \forall A: A \Rightarrow A $ & \verb|fun f (x:'a) : 'a = x |\\
+  $ \forall A: A \Rightarrow 1 $ & \verb|fun f (x:'a) : unit = () |\\
+  $ \forall A: A \Rightarrow A+B $ & \verb|fun f (x:'a) : Either  = Left x |\\
+  $ \forall A: A \times B \Rightarrow A $ & \verb|fun f (x:'a,y:'b) : 'a = x |\\
+  $ \forall A: A \Rightarrow B \Rightarrow A $ & \verb|fun f (x:'a) (y:'b) : 'a = x |\\
+  
+\end{tabular}
+
+\end{document}
