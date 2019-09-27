@@ -1,15 +1,13 @@
-
-
 \documentclass{beamer}
  
 \usepackage[utf8]{inputenc}
  
  
 %Information to be included in the title page:
-\title{Sample title}
-\author{Anonymous}
-\institute{Overleaf}
-\date{2014}
+\title{Formally verified hardware synthesizer}
+\author{Vismay Raj T}
+\institute{IIT Palakkad}
+\date{2019}
  
  
  
@@ -18,10 +16,121 @@
 \frame{\titlepage}
  
 \begin{frame}
-\frametitle{Sample frame title}
-This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
-again I'm adding more text to
+    \frametitle{Overview}
+    \begin{itemize}
+        \item What is formal verification
+        \item Dependent types
+        \item Coq
+        \item How to take this to hardware
+        \item Future plans
+    \end{itemize}
 \end{frame}
- 
+
+\begin{frame}
+    \frametitle{What is formal verification}
+    \textit{Have we made what we were trying to make?} \\~\\ 
+    Formal verification is the process of proving or disproving the correctness of intended algorithms
+    with respect to a certain \textbf{formal specification} or property \\~\\
+    The verification of these systems are done by providing a \textbf{formal proof} on an abstract 
+    \textbf{mathematical model} of the system
+    \vfill
+\end{frame}
+
+\begin{frame}
+    \frametitle{Formal specification}
+
+    \textit{Formal specifications describe what a system should do, not how the system should do it}\\~\\
+
+    Formal specifications are used to describe a system , analyse it's behavior , and it also aid in the 
+    design of the same by verifying the above stated properties through reasoning tools.
+
+    \vfill
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Dependent Types}
+
+    A Dependent types is a type whose definition depends on a value. It is an overlapping feature of type 
+    theory and type systems. Consider.
+    \begin{verbatim}
+    Function Concat 
+    (a: 'a list n) (b: 'a list m) : 'a list (n+m) 
+        := a::b
+    \end{verbatim}
+    similarly in Dependent types we can also have functions that return types. \textit{Coq is an example}
+    \begin{verbatim}
+        Definition foo (n:nat) : type :=
+            match n with
+            | 0 => nat
+            | _ => (nat*nat)%type
+            end.
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Why dependent types}
+    Now lets see how a function that return a type will be useful. Consider the following code segment
+    \begin{verbatim}
+        Definition bar (n:nat) : foo n :=
+        match n with
+        | 0 => 42
+        | _ => (42,42)
+        end.
+    \end{verbatim}
+    Now we are able to bring an additional constraint on the value  that is being returned , and that 
+    constraint depends on the \textbf{value} of the input. \\~\\
+    And the best part is that this constraint is checked during compile time.!!
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Coq}
+        Coq is an interactive theorem prover. It allows the expression of mathematical assertions,
+        mechanically checks the proofs of these assertions and helps in extracting certified program 
+        \\~\\
+        \begin{itemize}
+            \uncover<2->{\item Has features of a functional programming language}
+            \uncover<3->{\item Dependent types allows constraints over the input and output of functions}
+            \uncover<4->{\item Being a theorem prover it helps in proving that the written function is behaving as expected}
+        \end{itemize}
+    
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{An example of a stack machine}
+    The process involves . 
+    \begin{itemize}
+        \uncover<1->{\item Defining the type for an expression}
+        \uncover<2->{\item Defining a meaning for the expression (ie, how it is evaluated)}
+        \uncover<3->{\item Defining a program as a list of instructions}
+        \uncover<4->{\item Defining meaning to a program (ie, how the list of instructions are executed)}
+        \uncover<5->{\item Defining a compiler which will take an expression and returns a list of instructions which is the program}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Continues...}
+    Now we have , 
+    \begin{itemize}
+        \uncover<1->{\item A type for expression}
+        \uncover<2->{\item A way to calculate $exp \rightarrow nat$}
+        \uncover<3->{\item A way to make a program $exp \rightarrow program$}
+        \uncover<4->{\item A way to run the program and get an output $program \rightarrow nat liost$}
+    \end{itemize}
+
+    \uncover<5->
+    {
+        Now what we need to verify is the correctness of the compiler.
+        
+        $ top(runProg(compileExp \;\; e)) = n \Longrightarrow (CalcExp \;\; e) = n$
+    }
+    
+
+\end{frame}
+
+
+
 \end{document}
 
