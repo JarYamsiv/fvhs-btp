@@ -1,5 +1,4 @@
 \documentclass{beamer}
- 
 \usepackage[utf8]{inputenc}
  
  
@@ -21,8 +20,7 @@
         \item What is formal verification
         \item Dependent types
         \item Coq
-        \item How to take this to hardware
-        \item Future plans
+        \item Taking into hardware level / future plans
     \end{itemize}
 \end{frame}
 
@@ -90,10 +88,33 @@
         mechanically checks the proofs of these assertions and helps in extracting certified program 
         \\~\\
         \begin{itemize}
-            \uncover<2->{\item Has features of a functional programming language}
-            \uncover<3->{\item Dependent types allows constraints over the input and output of functions}
-            \uncover<4->{\item Being a theorem prover it helps in proving that the written function is behaving as expected}
+            \uncover<2->{\item Is a dependently typed functional programming language}
+            \uncover<3->{\item Gallina specification language can be used to write programs}
+            \uncover<4->{\item Being a theorem prover the algorithms written in Gallina can be formally verified}
         \end{itemize}
+    
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Coq example}
+    \begin{verbatim}
+Theorem forward_small : 
+(forall A B:Prop , A -> (A -> B ) -> B).
+Proof.
+    intros A B.
+    intros proof_of_A.
+    intros A_implies_B.
+    pose (proof_of_B := A_implies_B proof_of_A).
+    exact proof_of_B.
+Defined. 
+    \end{verbatim}
+
+    \begin{itemize}
+        \uncover<2->{\item Vernacular language - definitions at top level}
+        \uncover<3->{\item tactics  - used to write proofs}
+        \uncover<4->{\item Gallina language - specification language}
+    \end{itemize}
     
 
 \end{frame}
@@ -117,15 +138,26 @@
         \uncover<1->{\item A type for expression}
         \uncover<2->{\item A way to calculate $exp \rightarrow nat$}
         \uncover<3->{\item A way to make a program $exp \rightarrow program$}
-        \uncover<4->{\item A way to run the program and get an output $program \rightarrow nat liost$}
+        \uncover<4->{\item A way to run the program and get an output $program \rightarrow nat \;\; list \rightarrow nat \;\; list$}
     \end{itemize}
 
     \uncover<5->
     {
         Now what we need to verify is the correctness of the compiler.
         
-        $ top(runProg(compileExp \;\; e)) = n \Longrightarrow (CalcExp \;\; e) = n$
+        $\forall e : top(runProg\;(compileExp \;\; e)\; []) = (CalcExp \;\; e)$
     }
+    
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Into Hardware level}
+    \begin{itemize}
+        \uncover<1->{\item 4 valued logic that involves high impedance and unknown value (0,1,X,Z)}
+        \uncover<2->{\item definition of gates over this}
+        \uncover<3->{\item correctness of construction of units that uses the gates defined previously}
+    \end{itemize}
     
 
 \end{frame}

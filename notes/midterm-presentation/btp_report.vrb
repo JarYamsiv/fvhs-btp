@@ -4,14 +4,14 @@
         \uncover<1->{\item A type for expression}
         \uncover<2->{\item A way to calculate $exp \rightarrow nat$}
         \uncover<3->{\item A way to make a program $exp \rightarrow program$}
-        \uncover<4->{\item A way to run the program and get an output $program \rightarrow nat liost$}
+        \uncover<4->{\item A way to run the program and get an output $program \rightarrow nat \;\; list \rightarrow nat \;\; list$}
     \end{itemize}
 
     \uncover<5->
     {
         Now what we need to verify is the correctness of the compiler.
 
-        $ top(runProg(compileExp \;\; e)) = n \Longrightarrow (CalcExp \;\; e) = n$
+        $\forall e : top(runProg\;(compileExp \;\; e)\; []) = (CalcExp \;\; e)$
     }
 
 
