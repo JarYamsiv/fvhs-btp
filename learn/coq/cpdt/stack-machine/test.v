@@ -116,9 +116,12 @@ About "++".
 Lemma first_element_lemma : forall A (a : A) (p1 p2 : list A), (a :: p1) ++ p2 = a :: (p1 ++ p2) .
   intros. trivial.
 Qed.
+
 Lemma foo1 : forall a p1 p2,  progDenote ((a :: p1) ++ p2) = progDenote (a :: (p1 ++ p2)).
   intros. rewrite first_element_lemma. trivial.
-  Qed.
+Qed.
+
+
 Lemma programDenoteOVerAppend : forall p1 p2,  forall s, progDenote (p1 ++ p2) s
                                                        = match progDenote p1 s with
                                                            | None => None

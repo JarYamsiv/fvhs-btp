@@ -63,7 +63,6 @@ Definition prog := list instr.
 Definition stack := list nat.
 
 (* an instruction either pushes an element onto the stack or pops two elements and applies a binary operation on it *)
-Print option.
 Definition instrDentoe (i:instr) (s:stack): option stack :=
   match i with
     | iConst n => Some (n::s)
@@ -89,7 +88,7 @@ Fixpoint progDenote (p:prog) (s:stack) : option stack :=
 Fixpoint compile (e:exp) :prog :=
   match e with
     |Const n => iConst n::nil
-    |Binop b e1 e2 =>(compile e1) ++ (compile e2) ++ (iBinop b) :: nil
+    |Binop b e1 e2 =>(compile e2) ++ (compile e1) ++ (iBinop b) :: nil
   end.
 
 (* lets test our compiler *)
@@ -110,3 +109,50 @@ Theorem compile_correct : (forall e:exp ,progDenote (compile e) nil = Some (expD
 Proof.
   intros e.
 Abort.
+
+(* lets proove this for any expression e and any program p and any stack s
+   the rest of the theorem is self explanatory *)
+Lemma compile_correct' : (forall (e:exp)  (p:prog)  (s:stack) ,
+                            progDenote (compile e ++ p) s = progDenote p (expDenote e::s) ).
+Proof.
+  (* doing an induction on e would split it into (Const n) and (Binop e1 e2) *)
+  induction e.
+  (* the first subgoal is for the (Const n) now we will do intros to quantify the forall expressions *)
+  intros.
+  (* unfolding the two function applications (ie, compile and expDenote) will simplify the current goal 
+     and then we can unfold the progDenote in the begining which will turn the goal into a anonymous recursive definition
+     and here we will have the constructor (iConst n) which is know and hence we can use the simpl. to simplify it.
+     after which folding back the progDenote will leave us with a trivial goal which can be done using trivial. or reflexivity. 
+     or this can also be done with a simple simplify statement followed by a trivial. I dont know why the book did other way around*)
+  unfold compile.
+  unfold expDenote.
+  simpl.
+  trivial.
+ (* this is what the book did but it can also be done with (simpl. trivial.) which I've done above 
+  unfold progDenote at 1.
+  simpl.
+  fold progDenote.
+  trivial.
+  *)
+  (* now onto the second subgoal
+     we will unfold and fold to get some of the simplifications done*)
+  intros.
+  unfold compile.
+  fold compile.
+  unfold expDenote.
+  fold expDenote.
+  (* the progDenote at LHS has an argument that needs to be written in the other way (associativity )
+    and we will use app_assoc_reverse to get it done then we will rewrite it using the inductive hypothesis IHe1 *)
+  rewrite app_assoc_reverse.
+  rewrite IHe2.
+  rewrite app_assoc_reverse.
+  rewrite IHe1.
+  simpl.
+  trivial.
+Qed.
+
+(* error found := the older version of compile was (compile e1) :: (complie e2):: binop which was left associative but the 
+   function expDenote by nature was right associative and hence while proving it will run into an error. Now I've changed 
+   the Definition of compile to (compile e2)::(complie e1)::binop and the proof turned out correct. chnage it back to the 
+   older compile to see the errors (then you will also have to change the order in which the inductive hypothesis are being used.
+*)
