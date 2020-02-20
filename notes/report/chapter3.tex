@@ -1,9 +1,42 @@
 \chapter{Dependent types}
-
-    Dependent types are types whose definition depends on a value, it is an overlapping feature of \textit{type
+     Dependent types are types whose definition depends on a value, it is an overlapping feature of \textit{type
 theory} and \textit{type systems}. Dependent types are used to encode logic's quantifiers like \textit{forall}
  and \textit{there exists}. In functional programming languages like \textit{Agda , ATS , Coq , F* , Epigram}
 and \textit{Idris} dependent types may help reduce bugs by enabling the programmer to assign types that 
 further restrain the set of possible implementations. 
 
 \section{How do they look like}
+    Let's see a few examples. I'll use Coq for the examples. they are easy to understand even if you are
+not familiar with Coq. It requires basic understanding of functional programming.\\
+    Let's define a function in Coq that takes a natural number and returns a type. This is valid because 
+in dependently typed languages types are also treated as values of some other types, thus giving arise to 
+the type hierarchy  that can be seen below.
+\begin{verbatim}
+    Definition foo (n:nat) : type :=
+        match n with
+        | 0 => nat
+        | _ => (nat*nat)%type
+    end.
+\end{verbatim}
+
+This here is a definition of a function in Coq. This function has an argument \verb|n| that is a natural
+number represented by \verb|n:nat|. and the return type of the function is given as \verb|type|. Which
+means that what the function returns is a type. \textit{type is a value of type type. There are hierarchy
+of types which can be considered as type1 type2 etc.. but they are not visible in the programming\ level}\\
+\textit{note: the \% type is to distinguish that the given is a tuple type and not multiplication}\\ \\
+But how will this function be useful? \\ Let's consider another function
+\begin{verbatim}
+    Definition bar (n:nat) : foo n :=
+    match n with
+    | 0 => 42
+    | _ => (42,42)
+\end{verbatim}
+Now let's see what's happening with this function. Here the input like last time is a natural number n.
+and the outputs type is not some constant value instead it's written as \verb|foo n| , which means 
+what the function returns has a type that is dependent upon the value of the argument.And looking closely
+into the function it can be seen that the function return a single natural number for the input 0 and
+a tuple for any other input. This follows from the definition of \verb|foo| which states that the type
+needs to be a \verb|nat| for \verb|0| and \verb|nat*nat| for anything else. This way of defining and using
+types combined with the strict nature of such programming languages will help the programmer in detecting
+and dealing with many of the bugs during compile time itself.
+

@@ -4412,6 +4412,7 @@ var author$project$Main$update = F2(
 	});
 var author$project$Main$Decrement = {$: 'Decrement'};
 var author$project$Main$Increment = {$: 'Increment'};
+var elm$core$Basics$append = _Utils_append;
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
 };
@@ -4620,7 +4621,6 @@ var elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
 var elm$core$Basics$and = _Basics_and;
-var elm$core$Basics$append = _Utils_append;
 var elm$core$Basics$or = _Basics_or;
 var elm$core$Char$toCode = _Char_toCode;
 var elm$core$Char$isLower = function (_char) {
@@ -4867,6 +4867,14 @@ var author$project$Main$view = function (model) {
 					[
 						elm$html$Html$text(
 						elm$core$String$fromInt(model))
+					])),
+				A2(
+				elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						elm$html$Html$text(
+						'the value is ' + elm$core$String$fromInt(model))
 					])),
 				A2(
 				elm$html$Html$button,

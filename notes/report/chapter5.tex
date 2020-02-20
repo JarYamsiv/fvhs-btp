@@ -1,0 +1,28 @@
+\chapter{Asynchronous Circuits}
+An asynchronous circuit, or self-timed circuit, is a sequential digital logic circuit 
+which is not governed by a clock circuit or global clock signal. 
+Instead it often uses signals that indicate completion of instructions and operations, 
+specified by simple data transfer protocols.
+
+\section{Important features}
+\begin{itemize}
+    \item In asynchronous circuits, there is no clock signal, 
+    and the state of the circuit changes as soon as the inputs change.
+    \item they can be faster than synchronous circuits,
+     and their speed is theoretically limited only by the propagation delays of the logic gates
+    \item circuit can be sensitive to the relative arrival times of inputs at gates.
+\end{itemize}
+
+\section{Circuit Delays in VHDL signals}
+\begin{itemize}
+    \item \textbf{Transport} - The propagation delay in the system
+    \item \textbf{Inertial} - propagation delay and minimum pulse width
+    \item \textbf{Delta} - the default if no delay time is explicitly specified.
+\end{itemize}
+\par We can see that in combinational circuits the outputs are not evaluated instantly when the input changes
+There are different types of delays that determine when the changes will occur and how the changes will
+occur. As the circuit grows larger such relations become complicated. And verifying the correctness of 
+such circuits become important. 
+
+\par The project aims to achieve the formal verification of asynchronous circuits through theorem
+prover "Coq"

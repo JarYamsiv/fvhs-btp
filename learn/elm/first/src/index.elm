@@ -19,5 +19,6 @@ view model =
   div []
     [ button [ onClick Decrement ] [ text "-" ]
     , div [] [ text (String.fromInt model) ]
+    , div [] [ text ("the value is " ++ (String.fromInt model)) ]
     , button [ onClick Increment ] [ text "+" ]
     ]-- importing Html module and the function text

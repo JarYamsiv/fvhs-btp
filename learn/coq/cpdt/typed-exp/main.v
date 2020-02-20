@@ -1,5 +1,6 @@
 Require Import Bool Arith List.
 Set Implicit Arguments.
+
 (* this can be considered as the type of input this machine will take
    nat and bool are the types that are already defined in coq , the following
    are our own types.*)
@@ -57,3 +58,18 @@ Eval simpl in texpDenote ( TBinop (TEq Nat) (TBinop TPlus (TNConst 2) (TNConst 2
 (* this time the stack can get into 'underflow' or 'stuck' state depending on the number and type of Arguments respectivly*)
 
 Definition tstack := list type.
+
+(* any stack classified by tstack must have exactly as many elements , and each stack element must have the type found at the 
+   corresponding position of the stack type. *)
+Inductive tinstr : tstack -> tstack -> Set :=
+| TiNConst : forall s,nat -> tinstr s (Nat::s)
+| TiBConst : forall s,bool -> tinstr s (Bool::s)
+| TiBinop : forall arg1 arg2 res s,
+              tbinop arg1 arg2 res -> tinstr (arg1::arg2::s) (res::s).
+
+(**)
+Inductive tprog : tstack -> tstack -> Set :=
+| TNil : forall s,tprog s s
+| TCons : forall s1 s2 s3,
+                 tinstr s1 s2 -> tprog s2 s3 -> tprog s1 s3.
+                                                      

@@ -28,14 +28,16 @@ both "x" and "y" and it requires the existence of both variables. In a proof sys
         
 \section{Further relations}
 \begin{itemize}
-    \item Tuple type \verb|(int,string)|\\
+
+  \item Tuple type \verb|(int,string)|\\
       Creating : \verb| val x : int*string = (4 , ``Hello'')|\\
       Using : \verb| val y : int = #1 x|\\
-    \item Function type \verb| int -> string |\\
+      
+  \item Function type \verb| int -> string |\\
       Creating : \verb| fun f (x:int) :string = ``the value of x is'' ^ toString(x) |\\
       Using : \verb| val y: string = f 45|\\
     
-    \item Disjunction type \verb| datatype X = Left of int | $|$  \verb| Right of string |\\
+  \item Disjunction type \verb| datatype X = Left of int | $|$  \verb| Right of string |\\
       Creating : \verb| val x:X = Left 4|\\
       Creating : \verb| val y:X = Right ``Hello'' |\\
       Using : \verb| fun f (x:X) :bool = case x of |\\
@@ -43,10 +45,10 @@ both "x" and "y" and it requires the existence of both variables. In a proof sys
               \verb|                     Right _ = false|\\
       the above given is a function that takes an argument of type X and returns a value of type bool\\
               
-    \item Unit type \verb| type t = unit |\\
+  \item Unit type \verb| type t = unit |\\
       Creating : \verb| val x:unit = () |\\
               
-    \end{itemize}
+\end{itemize}
 
 \section{Conclusion}
 

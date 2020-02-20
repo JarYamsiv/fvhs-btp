@@ -11,6 +11,9 @@
 \BOOKMARK [0][-]{chapter.4}{Coq a proof assistant}{}% 11
 \BOOKMARK [1][-]{section.4.1}{A simple proof}{chapter.4}% 12
 \BOOKMARK [1][-]{section.4.2}{Example of formal specification}{chapter.4}% 13
-\BOOKMARK [1][-]{section.4.3}{Conclusion}{chapter.4}% 14
-\BOOKMARK [0][-]{chapter.5}{Conclusion and Future Work}{}% 15
-\BOOKMARK [0][-]{chapter.5}{References}{}% 16
+\BOOKMARK [0][-]{chapter.5}{Asynchronous Circuits}{}% 14
+\BOOKMARK [1][-]{section.5.1}{Important features}{chapter.5}% 15
+\BOOKMARK [1][-]{section.5.2}{Circuit Delays in VHDL signals}{chapter.5}% 16
+\BOOKMARK [0][-]{chapter.6}{Conclusion and Future Work}{}% 17
+\BOOKMARK [1][-]{section.6.1}{future works}{chapter.6}% 18
+\BOOKMARK [0][-]{section.6.1}{References}{}% 19
